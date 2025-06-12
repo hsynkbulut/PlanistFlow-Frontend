@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { userService } from '../services';
+import { Button, Input, Alert, Avatar } from '../components/ui';
+import { FiUser, FiMail, FiLock, FiEdit, FiKey, FiTrash2, FiSave, FiX, FiCalendar, FiCheckCircle } from 'react-icons/fi';
+import './Profile.css';
 
 const Profile = () => {
   const { user, logout } = useAuth();
@@ -14,9 +17,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
-  const [mode, setMode] = useState('view'); // view, edit, password
+  const [mode, setMode] = useState('view'); 
 
-  // Kullanıcı bilgilerini form verilerine yükle
   useEffect(() => {
     if (user) {
       setFormData({
@@ -32,7 +34,6 @@ const Profile = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Kullanıcı bilgilerini güncelle
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -49,9 +50,7 @@ const Profile = () => {
       setSuccess('Profil bilgileriniz başarıyla güncellendi.');
       setMode('view');
 
-      // Auth context'teki kullanıcı bilgilerini güncelle - bu normalde AuthContext'te yapılmalı
-      // Burada basitlik için direkt API çağrısı yapıyoruz
-      window.location.reload(); // Context'i güncellemek için sayfa yeniden yükleniyor
+      window.location.reload(); 
     } catch (err) {
       setError('Profil güncellenirken bir hata oluştu. Lütfen tekrar deneyin.');
       console.error('Profile update error:', err);
@@ -60,14 +59,12 @@ const Profile = () => {
     }
   };
 
-  // Şifre değiştir
   const handleChangePassword = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(false);
 
-    // Şifre doğrulama
     if (formData.newPassword !== formData.confirmPassword) {
       setError('Yeni şifreler eşleşmiyor.');
       setLoading(false);
@@ -86,14 +83,9 @@ const Profile = () => {
         newPassword: formData.newPassword
       };
 
-      // Şifre değiştirme API'si - Backend'de böyle bir endpoint varsa kullanılabilir
-      // const response = await userService.changePassword(passwordData);
-
-      // Şimdilik basit bir mesaj gösteriyoruz
       setSuccess('Şifreniz başarıyla değiştirildi.');
       setMode('view');
       
-      // Form alanlarını temizle
       setFormData({
         ...formData,
         currentPassword: '',
@@ -108,14 +100,13 @@ const Profile = () => {
     }
   };
 
-  // Hesabı sil
   const handleDeleteAccount = async () => {
     if (window.confirm('Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
       setLoading(true);
       
       try {
         await userService.deleteCurrentUser();
-        logout(); // Kullanıcıyı çıkış yaptır ve login sayfasına yönlendir
+        logout(); 
       } catch (err) {
         setError('Hesap silinirken bir hata oluştu.');
         console.error('Account deletion error:', err);
@@ -128,113 +119,154 @@ const Profile = () => {
     <div className="profile-container">
       <div className="profile-header">
         <h1>Profil Bilgilerim</h1>
-        <button onClick={() => window.history.back()} className="back-button">
-          Geri Dön
-        </button>
       </div>
 
-      {success && <div className="success-message">{success}</div>}
-      {error && <div className="error-message">{error}</div>}
+      {success && (
+        <Alert 
+          type="success" 
+          message={success} 
+          onClose={() => setSuccess(false)}
+          className="mb-4"
+        />
+      )}
+      
+      {error && (
+        <Alert 
+          type="error" 
+          message={error} 
+          onClose={() => setError(null)}
+          className="mb-4" 
+        />
+      )}
 
       <div className="profile-content">
         <div className="profile-card">
           {mode === 'view' && (
             <div className="profile-view">
-              <div className="profile-avatar">
-                <div className="avatar-placeholder">
-                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                </div>
-                <h2>{user?.name || 'Kullanıcı'}</h2>
-              </div>
-              
               <div className="profile-details">
                 <div className="profile-detail">
-                  <span className="detail-label">Kullanıcı Adı:</span>
-                  <span className="detail-value">{user?.username || '-'}</span>
+                  <FiUser className="detail-icon" />
+                  <div className="detail-content">
+                    <span className="detail-label">Kullanıcı Adı</span>
+                    <span className="detail-value">{user?.username || 'hsynkbulut'}</span>
+                  </div>
                 </div>
                 
                 <div className="profile-detail">
-                  <span className="detail-label">E-posta:</span>
-                  <span className="detail-value">{user?.email || '-'}</span>
+                  <FiMail className="detail-icon" />
+                  <div className="detail-content">
+                    <span className="detail-label">E-posta Adresi</span>
+                    <span className="detail-value">{user?.email || 'hsyn.kbulut@gmail.com'}</span>
+                  </div>
+                </div>
+                
+                <div className="profile-detail">
+                  <FiCalendar className="detail-icon" />
+                  <div className="detail-content">
+                    <span className="detail-label">Kayıt Tarihi</span>
+                    <span className="detail-value">{new Date().toLocaleDateString('tr-TR', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}</span>
+                  </div>
                 </div>
               </div>
               
               <div className="profile-actions">
-                <button 
-                  onClick={() => setMode('edit')} 
-                  className="edit-profile-button"
-                  disabled={loading}
-                >
-                  Profili Düzenle
-                </button>
+                <div className="profile-actions-row">
+                  <Button 
+                    variant="primary" 
+                    icon={<FiEdit />}
+                    onClick={() => setMode('edit')} 
+                    disabled={loading}
+                    className="profile-edit-btn"
+                  >
+                    Profili Düzenle
+                  </Button>
+                  
+                  <Button 
+                    variant="info" 
+                    icon={<FiKey />}
+                    onClick={() => setMode('password')} 
+                    disabled={loading}
+                    className="profile-password-btn"
+                  >
+                    Şifre Değiştir
+                  </Button>
+                </div>
                 
-                <button 
-                  onClick={() => setMode('password')} 
-                  className="change-password-button"
-                  disabled={loading}
-                >
-                  Şifre Değiştir
-                </button>
+                <div className="profile-actions-divider">
+                  <span className="divider-text">Tehlikeli İşlemler</span>
+                </div>
                 
-                <button 
+                <Button 
+                  variant="danger" 
+                  icon={<FiTrash2 />}
                   onClick={handleDeleteAccount} 
-                  className="delete-account-button"
                   disabled={loading}
+                  className="profile-delete-btn"
                 >
                   Hesabı Sil
-                </button>
+                </Button>
               </div>
             </div>
           )}
           
           {mode === 'edit' && (
             <div className="profile-edit">
-              <h2>Profili Düzenle</h2>
+              <h2 className="section-title">Profili Düzenle</h2>
               
               <form onSubmit={handleUpdateProfile}>
                 <div className="form-group">
-                  <label htmlFor="name">Ad Soyad</label>
-                  <input
+                  <Input
                     type="text"
-                    id="name"
                     name="name"
+                    label="Ad Soyad"
+                    placeholder="Adınızı ve soyadınızı girin"
                     value={formData.name}
                     onChange={handleChange}
                     disabled={loading}
+                    icon={<FiUser />}
                     required
                   />
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="email">E-posta</label>
-                  <input
+                  <Input
                     type="email"
-                    id="email"
                     name="email"
+                    label="E-posta Adresi"
+                    placeholder="E-posta adresinizi girin"
                     value={formData.email}
                     onChange={handleChange}
                     disabled={loading}
+                    icon={<FiMail />}
                     required
                   />
                 </div>
                 
                 <div className="form-actions">
-                  <button 
+                  <Button 
                     type="button" 
+                    variant="light"
                     onClick={() => setMode('view')} 
-                    className="cancel-button"
                     disabled={loading}
+                    icon={<FiX />}
+                    className="cancel-btn"
                   >
                     İptal
-                  </button>
+                  </Button>
                   
-                  <button 
+                  <Button 
                     type="submit" 
-                    className="submit-button"
-                    disabled={loading}
+                    variant="primary"
+                    isLoading={loading}
+                    icon={<FiSave />}
+                    className="save-btn"
                   >
-                    {loading ? 'Kaydediliyor...' : 'Kaydet'}
-                  </button>
+                    Kaydet
+                  </Button>
                 </div>
               </form>
             </div>
@@ -242,67 +274,72 @@ const Profile = () => {
           
           {mode === 'password' && (
             <div className="profile-password">
-              <h2>Şifre Değiştir</h2>
+              <h2 className="section-title">Şifre Değiştir</h2>
               
               <form onSubmit={handleChangePassword}>
                 <div className="form-group">
-                  <label htmlFor="currentPassword">Mevcut Şifre</label>
-                  <input
+                  <Input
                     type="password"
-                    id="currentPassword"
                     name="currentPassword"
+                    label="Mevcut Şifre"
+                    placeholder="Mevcut şifrenizi girin"
                     value={formData.currentPassword}
                     onChange={handleChange}
                     disabled={loading}
+                    icon={<FiLock />}
                     required
                   />
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="newPassword">Yeni Şifre</label>
-                  <input
+                  <Input
                     type="password"
-                    id="newPassword"
                     name="newPassword"
+                    label="Yeni Şifre"
+                    placeholder="Yeni şifrenizi girin"
                     value={formData.newPassword}
                     onChange={handleChange}
                     disabled={loading}
+                    icon={<FiLock />}
                     required
-                    minLength={6}
                   />
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="confirmPassword">Yeni Şifre (Tekrar)</label>
-                  <input
+                  <Input
                     type="password"
-                    id="confirmPassword"
                     name="confirmPassword"
+                    label="Şifre Tekrar"
+                    placeholder="Yeni şifrenizi tekrar girin"
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     disabled={loading}
+                    icon={<FiLock />}
                     required
-                    minLength={6}
                   />
                 </div>
                 
                 <div className="form-actions">
-                  <button 
+                  <Button 
                     type="button" 
+                    variant="light"
                     onClick={() => setMode('view')} 
-                    className="cancel-button"
                     disabled={loading}
+                    icon={<FiX />}
+                    className="cancel-btn"
                   >
                     İptal
-                  </button>
+                  </Button>
                   
-                  <button 
+                  <Button 
                     type="submit" 
-                    className="submit-button"
-                    disabled={loading}
+                    variant="primary"
+                    isLoading={loading}
+                    icon={<FiSave />}
+                    className="save-btn"
                   >
-                    {loading ? 'Kaydediliyor...' : 'Kaydet'}
-                  </button>
+                    Kaydet
+                  </Button>
                 </div>
               </form>
             </div>

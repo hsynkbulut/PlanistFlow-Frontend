@@ -8,7 +8,6 @@ const TaskFilter = ({ onFilterChange, onSortChange }) => {
   
   const [sortOption, setSortOption] = useState('title-asc');
 
-  // Filtre değişikliği
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const updatedFilters = { ...filters, [name]: value };
@@ -19,7 +18,6 @@ const TaskFilter = ({ onFilterChange, onSortChange }) => {
     }
   };
 
-  // Arama metni değişikliği
   const handleSearchChange = (e) => {
     const searchText = e.target.value;
     const updatedFilters = { ...filters, searchText };
@@ -30,19 +28,16 @@ const TaskFilter = ({ onFilterChange, onSortChange }) => {
     }
   };
 
-  // Sıralama değişikliği
   const handleSortChange = (e) => {
     const value = e.target.value;
     setSortOption(value);
     
     if (onSortChange) {
-      // value format: field-direction
       const [field, direction] = value.split('-');
       onSortChange({ field, direction });
     }
   };
 
-  // Filtreleri sıfırla
   const handleReset = () => {
     const resetFilters = {
       completed: 'ALL',

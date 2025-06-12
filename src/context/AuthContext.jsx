@@ -3,31 +3,25 @@ import authService from '../services/authService';
 import userService from '../services/userService';
 import { isTokenExpired } from '../utils/tokenUtils';
 
-// Context oluştur
 const AuthContext = createContext(null);
 
-// AuthProvider bileşeni
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Sayfa yüklendiğinde token varsa kullanıcı bilgilerini al
   useEffect(() => {
     const checkAuth = async () => {
       try {
         setLoading(true);
-        // Token varsa ve geçerliyse, kullanıcı bilgilerini al
         if (authService.isAuthenticated()) {
-          // Token'ın süresinin dolup dolmadığını kontrol et
           const token = authService.getToken();
           if (!isTokenExpired(token)) {
             const userData = await userService.getCurrentUser();
             setUser(userData);
             setIsAuthenticated(true);
           } else {
-            // Token süresi dolmuşsa çıkış yap
             authService.logout();
             setIsAuthenticated(false);
             setError('Oturum süreniz doldu. Lütfen tekrar giriş yapın.');
@@ -35,7 +29,6 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (err) {
         console.error('Auth check error:', err);
-        // Hata durumunda çıkış yap
         authService.logout();
         setIsAuthenticated(false);
         setError('Oturum kontrolü sırasında bir hata oluştu. Lütfen tekrar giriş yapın.');
@@ -47,7 +40,6 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // Kullanıcı girişi
   const login = async (username, password) => {
     try {
       setLoading(true);
@@ -71,7 +63,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Kullanıcı kaydı
   const register = async (userData) => {
     try {
       setLoading(true);
@@ -87,14 +78,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Kullanıcı çıkışı
   const logout = () => {
     authService.logout();
     setUser(null);
     setIsAuthenticated(false);
   };
 
-  // Context değerlerini sağla
   const value = {
     user,
     isAuthenticated,
@@ -108,7 +97,6 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Custom hook oluştur
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

@@ -1,88 +1,154 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Input, Button, Alert } from '../components/ui';
+import { FiMail, FiLock, FiLogIn, FiUser, FiArrowRight, FiCheckCircle } from 'react-icons/fi';
+import './Login.css';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { login, loading, isAuthenticated } = useAuth();
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  });
+  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-
-  // Kullanıcı zaten giriş yapmışsa dashboard'a yönlendir
+  
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/dashboard');
     }
   }, [isAuthenticated, navigate]);
-
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
+    }
+  };
+  
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.username.trim()) {
+      newErrors.username = 'Kullanıcı adı gerekli';
+    }
+    
+    if (!formData.password) {
+      newErrors.password = 'Şifre gerekli';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Şifre en az 6 karakter olmalıdır';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Form doğrulama
-    if (!username || !password) {
-      setError('Lütfen tüm alanları doldurun.');
-      return;
-    }
-
-    try {
-      // Giriş işlemi
-      const success = await login(username, password);
+    if (validateForm()) {
+      setIsLoading(true);
+      setErrorMessage('');
       
-      if (success) {
-        navigate('/dashboard'); // Başarılı girişte dashboard'a yönlendir
-      } else {
-        setError('Giriş başarısız. Lütfen bilgilerinizi kontrol edin.');
+      try {
+        await login(formData.username, formData.password);
+      } catch (error) {
+        setErrorMessage(
+          error.response?.data?.message || 
+          'Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.'
+        );
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      setError('Giriş sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
-      console.error('Login error:', err);
     }
   };
-
+  
   return (
     <div className="login-container">
-      <div className="login-form">
-        <h2>Giriş Yap</h2>
+      <div className="shape-1"></div>
+      <div className="shape-2"></div>
+      <div className="login-card animate-fadeIn">
+        <div className="login-header">
+          <div className="login-logo">
+            <div className="login-logo-icon">
+              <FiCheckCircle className="login-logo-icon-inner" />
+            </div>
+          </div>
+          <h1 className="login-title">Hoş Geldiniz</h1>
+          <p className="login-subtitle">Görev yönetimi sistemine giriş yapın</p>
+        </div>
         
-        {error && <div className="error-message">{error}</div>}
+        {errorMessage && (
+          <Alert 
+            type="error" 
+            message={errorMessage} 
+            onClose={() => setErrorMessage('')}
+            className="mb-4"
+          />
+        )}
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="username">Kullanıcı Adı</label>
-            <input
+            <Input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              disabled={loading}
+              name="username"
+              label="Kullanıcı Adı"
+              placeholder="Kullanıcı adınızı girin"
+              value={formData.username}
+              onChange={handleChange}
+              error={errors.username}
+              icon={<FiUser />}
+              autoComplete="username"
               required
             />
           </div>
           
           <div className="form-group">
-            <label htmlFor="password">Şifre</label>
-            <input
+            <Input
               type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={loading}
+              name="password"
+              label="Şifre"
+              placeholder="Şifrenizi girin"
+              value={formData.password}
+              onChange={handleChange}
+              error={errors.password}
+              icon={<FiLock />}
+              autoComplete="current-password"
               required
             />
           </div>
           
-          <button 
+          <Button 
             type="submit" 
-            className="login-button"
-            disabled={loading}
+            variant="primary" 
+            size="lg"
+            isLoading={isLoading}
+            fullWidth
+            className="login-button mt-4"
+            icon={<FiLogIn />}
           >
-            {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
-          </button>
+            Giriş Yap
+          </Button>
         </form>
         
-        <div className="register-link">
-          Hesabınız yok mu? <Link to="/register">Kayıt Ol</Link>
+        <div className="login-footer">
+          <p>Hesabınız yok mu?</p>
+          <Link to="/register">
+            <Button variant="secondary" fullWidth icon={<FiArrowRight />} className="register-link-button">
+              Kayıt Ol
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

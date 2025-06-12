@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { taskService } from '../services';
+import './TaskForm.css';
 
 const TaskForm = ({ task = null, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,6 @@ const TaskForm = ({ task = null, onSubmit, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Eğer task prop'u varsa (düzenleme modunda), form verilerini doldur
   useEffect(() => {
     if (task) {
       setFormData({
@@ -23,7 +23,6 @@ const TaskForm = ({ task = null, onSubmit, onCancel }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    // Checkbox için checked değerini, diğer input'lar için value değerini kullan
     const inputValue = type === 'checkbox' ? checked : value;
     
     setFormData({ ...formData, [name]: inputValue });
@@ -38,10 +37,8 @@ const TaskForm = ({ task = null, onSubmit, onCancel }) => {
       let result;
       
       if (task) {
-        // Düzenleme modu
         result = await taskService.updateTask(task.id, formData);
       } else {
-        // Ekleme modu - completed alanını gönderme (backend default false atıyor)
         const { completed, ...createData } = formData;
         result = await taskService.createTask(createData);
       }
@@ -63,7 +60,7 @@ const TaskForm = ({ task = null, onSubmit, onCancel }) => {
       
       <form onSubmit={handleSubmit} className="task-form">
         <div className="form-group">
-          <label htmlFor="title">Görev Başlığı*</label>
+          <label htmlFor="title">Görev Başlığı <span className="required">*</span></label>
           <input
             type="text"
             id="title"
@@ -72,11 +69,13 @@ const TaskForm = ({ task = null, onSubmit, onCancel }) => {
             onChange={handleChange}
             required
             disabled={loading}
+            placeholder="Görevin başlığını girin"
+            autoFocus
           />
         </div>
         
         <div className="form-group">
-          <label htmlFor="description">Açıklama*</label>
+          <label htmlFor="description">Açıklama <span className="required">*</span></label>
           <textarea
             id="description"
             name="description"
@@ -85,6 +84,7 @@ const TaskForm = ({ task = null, onSubmit, onCancel }) => {
             rows="4"
             required
             disabled={loading}
+            placeholder="Görev hakkında detaylı açıklama yazın"
           />
         </div>
         
@@ -115,7 +115,7 @@ const TaskForm = ({ task = null, onSubmit, onCancel }) => {
           </button>
           <button 
             type="submit" 
-            className="submit-button"
+            className={`submit-button ${task ? 'update-button' : 'add-button'}`}
             disabled={loading}
           >
             {loading ? 'Kaydediliyor...' : task ? 'Güncelle' : 'Ekle'}

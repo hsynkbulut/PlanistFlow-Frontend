@@ -12,24 +12,20 @@ class ErrorBoundary extends Component {
   }
 
   static getDerivedStateFromError(error) {
-    // Bir sonraki render'da hata gösterme UI'ı göstermek için state'i güncelliyoruz
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    // Hata bilgilerini bileşen state'ine kaydediyoruz
     this.setState({
       error: error,
       errorInfo: errorInfo
     });
     
-    // Hatayı bir hata raporlama servisine gönderebilirsiniz
     console.error("Error caught by ErrorBoundary:", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      // Özel hata UI'ı render ediyoruz
       return (
         <div className="error-boundary">
           <div className="error-container">
@@ -49,7 +45,6 @@ class ErrorBoundary extends Component {
               </Link>
             </div>
             
-            {/* Geliştirme ortamında hata detaylarını gösteriyoruz */}
             {process.env.NODE_ENV === 'development' && (
               <div className="error-details">
                 <h3>Hata Detayları:</h3>
@@ -63,7 +58,6 @@ class ErrorBoundary extends Component {
       );
     }
 
-    // Eğer hata yoksa normal children'ları render ediyoruz
     return this.props.children;
   }
 }

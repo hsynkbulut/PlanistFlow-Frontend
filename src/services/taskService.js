@@ -1,8 +1,6 @@
 import api, { TASK_ENDPOINTS } from './api';
 
-// Görev servisi
 const taskService = {
-  // Tüm görevleri getir
   getAllTasks: async () => {
     try {
       const response = await api.get(TASK_ENDPOINTS.ALL);
@@ -13,7 +11,6 @@ const taskService = {
     }
   },
 
-  // ID'ye göre görev getir
   getTaskById: async (id) => {
     try {
       const response = await api.get(TASK_ENDPOINTS.BY_ID(id));
@@ -24,7 +21,6 @@ const taskService = {
     }
   },
 
-  // Yeni görev oluştur
   createTask: async (taskData) => {
     try {
       const response = await api.post(TASK_ENDPOINTS.ALL, taskData);
@@ -35,7 +31,6 @@ const taskService = {
     }
   },
 
-  // Görevi güncelle
   updateTask: async (id, taskData) => {
     try {
       const response = await api.put(TASK_ENDPOINTS.BY_ID(id), taskData);
@@ -46,7 +41,6 @@ const taskService = {
     }
   },
 
-  // Görevi sil
   deleteTask: async (id) => {
     try {
       await api.delete(TASK_ENDPOINTS.BY_ID(id));

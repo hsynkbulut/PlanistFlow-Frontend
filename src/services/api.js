@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// API URL'lerini sabitleri
 export const API_BASE_URL = 'http://localhost:8080/api/v1';
 export const AUTH_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/auth/login`,
@@ -16,7 +15,6 @@ export const TASK_ENDPOINTS = {
   BY_ID: (id) => `${API_BASE_URL}/tasks/${id}`,
 };
 
-// Kimlik doğrulamalı istekler için axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -24,7 +22,6 @@ const api = axios.create({
   },
 });
 
-// İstek gönderilmeden önce token'ı ekle
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');

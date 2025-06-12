@@ -1,8 +1,8 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .logo {
@@ -123,7 +123,6 @@ button:disabled {
   margin-bottom: 1rem;
 }
 
-/* Login Sayfası */
 .login-container,
 .register-container {
   display: flex;
@@ -162,7 +161,6 @@ button:disabled {
   margin-top: 1.5rem;
 }
 
-/* Dashboard Sayfası */
 .dashboard-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -261,7 +259,6 @@ button:disabled {
   color: white;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .dashboard-header {
     flex-direction: column;
@@ -274,9 +271,6 @@ button:disabled {
   }
 }
 
-/* Yeni eklenen stiller */
-
-/* Form stilleri */
 textarea {
   width: 100%;
   padding: 0.75rem;
@@ -333,7 +327,6 @@ select {
   background-color: #357abd;
 }
 
-/* Task kartları için stiller */
 .tasks-header {
   display: flex;
   justify-content: space-between;
@@ -393,15 +386,11 @@ select {
 .status-dropdown {
   font-size: 0.875rem;
   padding: 0.25rem;
-}
-
-/* Status sınıfları */
-.status-inprogress, .status-in_progress {
+}.status-inprogress, .status-in_progress {
   background-color: var(--warning-color);
   color: white;
 }
 
-/* Responsive - Task form */
 @media (max-width: 768px) {
   .form-actions {
     flex-direction: column;
@@ -413,7 +402,6 @@ select {
   }
 }
 
-/* Profil Sayfası Stilleri */
 .profile-container {
   max-width: 800px;
   margin: 0 auto;
@@ -504,7 +492,6 @@ select {
   background-color: var(--danger-color);
 }
 
-/* Responsive - Profil sayfası */
 @media (max-width: 768px) {
   .profile-header {
     flex-direction: column;
@@ -518,7 +505,6 @@ select {
   }
 }
 
-/* Dashboard profil bağlantısı */
 .profile-link {
   text-decoration: none;
   color: var(--dark-color);
@@ -535,7 +521,6 @@ select {
   margin-right: 1rem;
 }
 
-/* Task Filtreleme Stilleri */
 .task-filter {
   background-color: white;
   padding: 1rem;
@@ -587,7 +572,6 @@ select {
   background-color: #e9ecef;
 }
 
-/* Task kategorileri */
 .task-category {
   display: inline-block;
   padding: 0.25rem 0.5rem;
@@ -598,7 +582,6 @@ select {
   color: var(--dark-color);
 }
 
-/* Task öncelik renkleri */
 .priority-high {
   background-color: var(--danger-color);
   color: white;
@@ -614,7 +597,6 @@ select {
   color: white;
 }
 
-/* Responsive - Filtreleme */
 @media (max-width: 768px) {
   .filter-row {
     flex-direction: column;
@@ -631,7 +613,6 @@ select {
   }
 }
 
-/* Görev özeti ve mesajlar */
 .tasks-summary {
   margin-top: 1.5rem;
   padding: 0.75rem;
@@ -655,7 +636,6 @@ select {
   font-size: 1.1rem;
 }
 
-/* Tamamlanmış görev stili */
 .task-completed {
   background-color: #f8f9fa;
   border-left: 4px solid var(--secondary-color);
@@ -666,7 +646,6 @@ select {
   color: #6c757d;
 }
 
-/* Checkbox stilleri */
 .checkbox-group {
   margin-top: 0.5rem;
 }
@@ -698,14 +677,12 @@ select {
   height: 18px;
 }
 
-/* Görev numarası stili */
 .task-number {
   font-size: 0.85rem;
   color: #6c757d;
   font-style: italic;
 }
 
-/* İstatistikler Sayfası Stilleri */
 .statistics-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -940,7 +917,6 @@ select {
   font-weight: 500;
 }
 
-/* Responsive - İstatistikler */
 @media (max-width: 768px) {
   .statistics-header {
     flex-direction: column;
@@ -964,7 +940,6 @@ select {
   }
 }
 
-/* Error Boundary Stilleri */
 .error-boundary {
   display: flex;
   justify-content: center;
@@ -1028,7 +1003,6 @@ select {
   overflow-y: auto;
 }
 
-/* Yardım Sayfası Stilleri */
 .help-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -1150,7 +1124,6 @@ select {
   margin-bottom: 0.8rem;
 }
 
-/* Responsive - Yardım Sayfası */
 @media (max-width: 768px) {
   .help-content {
     grid-template-columns: 1fr;

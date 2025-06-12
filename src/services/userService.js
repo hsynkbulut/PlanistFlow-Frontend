@@ -1,8 +1,6 @@
 import api, { USER_ENDPOINTS } from './api';
 
-// Kullanıcı servisi
 const userService = {
-  // Mevcut kullanıcının bilgilerini getir
   getCurrentUser: async () => {
     try {
       const response = await api.get(USER_ENDPOINTS.ME);
@@ -13,7 +11,6 @@ const userService = {
     }
   },
 
-  // Kullanıcı bilgilerini güncelle
   updateCurrentUser: async (userData) => {
     try {
       const response = await api.put(USER_ENDPOINTS.ME, userData);
@@ -24,7 +21,6 @@ const userService = {
     }
   },
 
-  // Kullanıcı hesabını sil
   deleteCurrentUser: async () => {
     try {
       await api.delete(USER_ENDPOINTS.ME);

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { taskService } from '../services';
+import { FiEdit, FiTrash2, FiCheckCircle, FiClock, FiAlertCircle } from 'react-icons/fi';
+import './TaskCard.css';
 
 const TaskCard = ({ task, onEdit, onDelete, onStatusChange }) => {
   const [loading, setLoading] = useState(false);
   
-  // Tamamlanma durumunu değiştir
   const handleCompletedChange = async (e) => {
     const completed = e.target.checked;
     setLoading(true);
@@ -25,7 +26,6 @@ const TaskCard = ({ task, onEdit, onDelete, onStatusChange }) => {
     }
   };
   
-  // Görevi sil
   const handleDelete = async () => {
     if (window.confirm('Bu görevi silmek istediğinizden emin misiniz?')) {
       setLoading(true);
@@ -44,48 +44,85 @@ const TaskCard = ({ task, onEdit, onDelete, onStatusChange }) => {
     }
   };
 
+  const truncateTitle = (title, maxLength = 25) => {
+    if (!title) return 'İsimsiz Görev';
+    return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
+  };
+
+  const truncateDescription = (description, maxLength = 80) => {
+    if (!description) return 'Açıklama yok';
+    return description.length > maxLength ? description.substring(0, maxLength) + '...' : description;
+  };
+
   return (
-    <div className={`task-card ${task.completed ? 'task-completed' : ''}`}>
-      <h3>{task.title || 'İsimsiz Görev'}</h3>
-      <p>{task.description || 'Açıklama yok'}</p>
+    <div className={`task-card ${task.completed ? 'task-completed' : 'task-pending'}`}>
+      <div className="task-card-header">
+        <h3 className="task-title" title={task.title || 'İsimsiz Görev'}>
+          {truncateTitle(task.title)}
+        </h3>
+        <div className="task-status">
+          {task.completed ? (
+            <span className="status-badge completed">
+              <FiCheckCircle /> Tamamlandı
+            </span>
+          ) : (
+            <span className="status-badge pending">
+              <FiAlertCircle /> Yapılacak
+            </span>
+          )}
+        </div>
+      </div>
       
-      <div className="task-details">
-        <div className="status-container">
+      <div className="task-content">
+        <p className="task-description" title={task.description || 'Açıklama yok'}>
+          {truncateDescription(task.description)}
+        </p>
+      </div>
+      
+      {task.taskNo && (
+        <div className="task-meta">
+          <span className="task-number">
+            Görev No: {task.taskNo}
+          </span>
+        </div>
+      )}
+      
+      <div className="task-footer">
+        <div className="task-checkbox">
           <label className="completed-checkbox">
             <input
               type="checkbox"
               checked={task.completed}
               onChange={handleCompletedChange}
               disabled={loading}
+              className="checkbox-input"
             />
             <span className="checkbox-label">
-              {task.completed ? 'Tamamlandı' : 'Yapılacak'}
+              {task.completed ? 'Tamamlandı' : 'Tamamla'}
             </span>
           </label>
         </div>
         
-        {task.taskNo && (
-          <span className="task-number">
-            Görev No: {task.taskNo}
-          </span>
-        )}
-      </div>
-      
-      <div className="task-actions">
-        <button 
-          onClick={() => onEdit(task)} 
-          className="edit-button"
-          disabled={loading}
-        >
-          Düzenle
-        </button>
-        <button 
-          onClick={handleDelete} 
-          className="delete-button"
-          disabled={loading}
-        >
-          Sil
-        </button>
+        <div className="task-actions">
+          <button 
+            onClick={() => onEdit(task)} 
+            className="action-button edit-button"
+            disabled={loading}
+            aria-label="Görevi düzenle"
+          >
+            <FiEdit />
+            <span>Düzenle</span>
+          </button>
+          <button 
+            onClick={handleDelete} 
+            className="action-button delete-button"
+            disabled={loading}
+            aria-label="Görevi sil"
+          >
+            <FiTrash2 />
+            <span>Sil</span>
+          </button>
+        </div>
       </div>
     </div>
   );

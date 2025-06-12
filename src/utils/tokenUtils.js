@@ -1,21 +1,11 @@
-/**
- * JWT token'dan bilgi almak için yardımcı fonksiyonlar
- */
 
-/**
- * JWT token'ı decode eder
- * @param {string} token - JWT token
- * @returns {object|null} - Token içeriği veya null
- */
 export const decodeToken = (token) => {
   if (!token) return null;
 
   try {
-    // JWT yapısı: header.payload.signature
-    const base64Url = token.split('.')[1]; // payload kısmını al
+    const base64Url = token.split('.')[1]; 
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     
-    // Base64 decode
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split('')
@@ -30,11 +20,6 @@ export const decodeToken = (token) => {
   }
 };
 
-/**
- * Token'ın sona erme süresini kontrol eder
- * @param {string} token - JWT token
- * @returns {boolean} - Token geçerli mi?
- */
 export const isTokenExpired = (token) => {
   if (!token) return true;
 
@@ -42,7 +27,6 @@ export const isTokenExpired = (token) => {
     const decoded = decodeToken(token);
     if (!decoded || !decoded.exp) return true;
 
-    // Token süresi saniye cinsinden, şu anki zaman milisaniye
     const expirationTime = decoded.exp * 1000;
     const currentTime = Date.now();
 
@@ -53,17 +37,11 @@ export const isTokenExpired = (token) => {
   }
 };
 
-/**
- * Token'dan kullanıcı adını alır
- * @param {string} token - JWT token
- * @returns {string|null} - Kullanıcı adı veya null
- */
 export const getUsernameFromToken = (token) => {
   if (!token) return null;
 
   try {
     const decoded = decodeToken(token);
-    // Spring Security varsayılan olarak 'sub' alanında username'i saklar
     return decoded?.sub || null;
   } catch (error) {
     console.error('Token kullanıcı adı alma hatası:', error);
@@ -71,11 +49,6 @@ export const getUsernameFromToken = (token) => {
   }
 };
 
-/**
- * Token'dan kalan süreyi alır (milisaniye cinsinden)
- * @param {string} token - JWT token
- * @returns {number} - Kalan süre (milisaniye) veya 0
- */
 export const getRemainingTime = (token) => {
   if (!token) return 0;
 
