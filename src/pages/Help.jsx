@@ -16,13 +16,6 @@ const Help = () => {
     <div className="help-container">
       <div className="help-header">
         <h1>Yardım ve Kullanım Kılavuzu</h1>
-        <Button 
-          variant="light" 
-          onClick={() => navigate('/dashboard')} 
-          icon={<FiArrowLeft />}
-        >
-          Görevlere Dön
-        </Button>
       </div>
 
       <div className="help-content">
