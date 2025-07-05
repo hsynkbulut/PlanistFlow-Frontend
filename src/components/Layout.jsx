@@ -17,7 +17,7 @@ const Layout = () => {
       <footer className="footer">
         <div className="container-fluid">
           <p>
-            &copy; {currentYear} Görev Yönetimi | Tüm Hakları Saklıdır | 
+            &copy; {currentYear} PlanistFlow | Tüm Hakları Saklıdır | 
             <a href="/terms" className="ml-1">Kullanım Koşulları</a> | 
             <a href="/privacy" className="ml-1">Gizlilik Politikası</a>
           </p>

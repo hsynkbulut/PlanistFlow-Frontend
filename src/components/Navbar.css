@@ -196,18 +196,21 @@
   top: 100%;
   right: 0;
   width: 220px;
+  min-width: 180px;
+  min-height: 80px;
   background-color: white;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   padding: 0.75rem 0;
   margin-top: 0.75rem;
   display: none;
-  z-index: 1001;
+  z-index: 2000;
   animation: fadeIn 0.2s ease-out;
   border: 1px solid var(--border-color);
   transform-origin: top right;
 }
 
+.navbar-user-container:focus-within .navbar-user-menu,
 .navbar-user-container:hover .navbar-user-menu {
   display: block;
 }
@@ -230,6 +233,7 @@
 .navbar-user-item:hover {
   background-color: var(--primary-light);
   color: var(--primary-color);
+  text-decoration: none;
 }
 
 .navbar-logout {

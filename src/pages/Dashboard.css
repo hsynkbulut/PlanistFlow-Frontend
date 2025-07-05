@@ -85,13 +85,15 @@
 }
 
 .dashboard-button {
-  font-weight: 700 !important; 
-  text-transform: uppercase;
-  letter-spacing: 0.5px; 
-  color: white !important; 
-  padding: 0.6rem 1.4rem !important; 
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16) !important;
-  transition: all 0.3s ease !important; 
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.08rem;
+  font-weight: 500;
+  padding: 0.65em 1.3em;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+  color: #fff !important;
 }
 
 .dashboard-button:hover {
@@ -100,13 +102,21 @@
 }
 
 .dashboard-add-button {
+  margin-right: 0.7em;
   background: linear-gradient(45deg, #2ecc71, #27ae60) !important; 
   border-color: #27ae60 !important;
 }
 
 .dashboard-refresh-button {
+  margin-left: 0.2em;
   background: linear-gradient(45deg, #3498db, #2980b9) !important;
   border-color: #2980b9 !important;
+}
+
+.dashboard-button svg {
+  margin-right: 0.3em;
+  font-size: 1.2em;
+  color: #fff !important;
 }
 
 @media (max-width: 768px) {

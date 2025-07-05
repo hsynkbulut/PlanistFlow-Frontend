@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button, Avatar } from './ui';
@@ -7,9 +7,22 @@ import './Navbar.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  
+  useEffect(() => {
+    if (!userMenuOpen) return;
+    function handleClickOutside(e) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [userMenuOpen]);
   
   const handleLogout = () => {
     logout();
@@ -36,7 +49,7 @@ const Navbar = () => {
             <div className="logo-icon">
               <FiCheckSquare className="logo-icon-inner" />
             </div>
-            <span>Görev Yönetimi</span>
+            <span>PlanistFlow</span>
           </Link>
           
           <button 
@@ -80,8 +93,8 @@ const Navbar = () => {
           
           <div className="navbar-end">
             {user && (
-              <div className="navbar-user-container">
-                <div className="navbar-user" onClick={() => navigate('/profile')}>
+              <div className="navbar-user-container" ref={userMenuRef}>
+                <div className="navbar-user" onClick={() => setUserMenuOpen(v => !v)} tabIndex={0} style={{userSelect:'none'}}>
                   <Avatar 
                     name={user.name || user.username}
                     size="sm"
@@ -89,28 +102,29 @@ const Navbar = () => {
                   />
                   <span className="navbar-username">{user.username}</span>
                 </div>
-                
-                <div className="navbar-user-menu">
-                  <Link 
-                    to="/profile" 
-                    className="navbar-user-item"
-                    onClick={closeMenu}
-                  >
-                    <FiUser className="navbar-icon" />
-                    <span>Profil</span>
-                  </Link>
-                  
-                  <button 
-                    className="navbar-user-item navbar-logout"
-                    onClick={() => {
-                      closeMenu();
-                      handleLogout();
-                    }}
-                  >
-                    <FiLogOut className="navbar-icon" />
-                    <span>Çıkış Yap</span>
-                  </button>
-                </div>
+                {userMenuOpen && (
+                  <div className="navbar-user-menu">
+                    <Link 
+                      to="/profile" 
+                      className="navbar-user-item"
+                      onClick={() => { setUserMenuOpen(false); closeMenu(); }}
+                    >
+                      <FiUser className="navbar-icon" />
+                      <span>Profil</span>
+                    </Link>
+                    <button 
+                      className="navbar-user-item navbar-logout"
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        closeMenu();
+                        handleLogout();
+                      }}
+                    >
+                      <FiLogOut className="navbar-icon" />
+                      <span>Çıkış Yap</span>
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

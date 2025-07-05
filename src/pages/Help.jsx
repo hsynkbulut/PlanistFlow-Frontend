@@ -73,10 +73,10 @@ const Help = () => {
           <Card className="help-content-card">
             {activeSection === 'getting-started' && (
               <div className="help-section">
-                <h2>Başlangıç</h2>
+                <h2>PlanistFlow</h2>
                 <div className="section-divider"></div>
                 
-                <p>Görev Yönetim uygulamamıza hoş geldiniz! Bu uygulama ile görevlerinizi kolayca takip edebilir, düzenleyebilir ve organize edebilirsiniz.</p>
+                <p>PlanistFlow uygulamamıza hoş geldiniz! Bu uygulama ile görevlerinizi kolayca takip edebilir, düzenleyebilir ve organize edebilirsiniz.</p>
                 
                 <h3>Hızlı Başlangıç Adımları</h3>
                 <ol className="help-steps">
@@ -240,7 +240,7 @@ const Help = () => {
                 
                 <div className="help-topic">
                   <h3>İpuçları</h3>
-                  <p>İstatistikler sayfasında, verimlilik ve görev yönetimi konusunda size özel ipuçları bulunur. Bu ipuçları, görev tamamlama oranınıza göre kişiselleştirilir.</p>
+                  <p>İstatistikler sayfasında, verimlilik ve PlanistFlow konusunda size özel ipuçları bulunur. Bu ipuçları, görev tamamlama oranınıza göre kişiselleştirilir.</p>
                 </div>
               </div>
             )}
@@ -278,7 +278,7 @@ const Help = () => {
                   
                   <div className="faq-item">
                     <h3>Daha fazla yardıma ihtiyacım var, nasıl iletişim kurabilirim?</h3>
-                    <p>Yardım almak için support@taskmanagement.com adresine e-posta gönderebilirsiniz.</p>
+                    <p>Yardım almak için support@planistflow.com adresine e-posta gönderebilirsiniz.</p>
                   </div>
                 </div>
               </div>

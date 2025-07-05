@@ -121,7 +121,7 @@
 .profile-detail {
   display: flex;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.5rem 0.5rem 1.5rem 1.5rem;
   border-radius: var(--border-radius-lg);
   background-color: rgba(255, 255, 255, 0.8);
   margin-bottom: 1.25rem;
@@ -150,6 +150,8 @@
 .detail-content {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  padding-right: 2.5rem;
 }
 
 .detail-label {

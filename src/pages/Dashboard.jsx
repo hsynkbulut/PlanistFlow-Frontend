@@ -7,6 +7,8 @@ import TaskFilter from '../components/TaskFilter';
 import { Button } from '../components/ui';
 import { FiPlus, FiRefreshCw } from 'react-icons/fi';
 import './Dashboard.css';
+import TaskDetailModal from '../components/TaskDetailModal';
+import TaskFormModal from '../components/TaskFormModal';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -15,6 +17,7 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
   
   const [filters, setFilters] = useState({
     completed: 'ALL',
@@ -160,11 +163,13 @@ const Dashboard = () => {
         />
         
         {showTaskForm && (
-          <TaskForm 
-            task={currentTask} 
-            onSubmit={handleTaskSubmit} 
-            onCancel={() => setShowTaskForm(false)}
-          />
+          <TaskFormModal onClose={() => setShowTaskForm(false)}>
+            <TaskForm 
+              task={currentTask} 
+              onSubmit={handleTaskSubmit} 
+              onCancel={() => setShowTaskForm(false)}
+            />
+          </TaskFormModal>
         )}
         
         {loading && <p>Görevler yükleniyor...</p>}
@@ -190,6 +195,7 @@ const Dashboard = () => {
                 onEdit={handleEditTask}
                 onDelete={handleDeleteTask}
                 onStatusChange={handleStatusChange}
+                onClick={() => setSelectedTask(task)}
               />
             ))}
           </div>
@@ -203,6 +209,13 @@ const Dashboard = () => {
               {filters.searchText && ` | "${filters.searchText}" için arama sonuçları`}
             </p>
           </div>
+        )}
+        
+        {selectedTask && (
+          <TaskDetailModal
+            task={selectedTask}
+            onClose={() => setSelectedTask(null)}
+          />
         )}
       </div>
     </div>

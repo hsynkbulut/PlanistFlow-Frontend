@@ -86,7 +86,7 @@ const Login = () => {
             </div>
           </div>
           <h1 className="login-title">Hoş Geldiniz</h1>
-          <p className="login-subtitle">Görev yönetimi sistemine giriş yapın</p>
+          <p className="login-subtitle">PlanistFlow sistemine giriş yapın</p>
         </div>
         
         {errorMessage && (

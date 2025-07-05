@@ -3,7 +3,7 @@ import { taskService } from '../services';
 import { FiEdit, FiTrash2, FiCheckCircle, FiClock, FiAlertCircle } from 'react-icons/fi';
 import './TaskCard.css';
 
-const TaskCard = ({ task, onEdit, onDelete, onStatusChange }) => {
+const TaskCard = ({ task, onEdit, onDelete, onStatusChange, onClick }) => {
   const [loading, setLoading] = useState(false);
   
   const handleCompletedChange = async (e) => {
@@ -55,7 +55,13 @@ const TaskCard = ({ task, onEdit, onDelete, onStatusChange }) => {
   };
 
   return (
-    <div className={`task-card ${task.completed ? 'task-completed' : 'task-pending'}`}>
+    <div 
+      className={`task-card ${task.completed ? 'task-completed' : 'task-pending'}`}
+      onClick={e => {
+        if (e.target.tagName !== 'BUTTON' && onClick) onClick();
+      }}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
       <div className="task-card-header">
         <h3 className="task-title" title={task.title || 'İsimsiz Görev'}>
           {truncateTitle(task.title)}

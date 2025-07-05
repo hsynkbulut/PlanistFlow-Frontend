@@ -80,7 +80,11 @@ const Register = () => {
       setErrorMessage('');
       
       try {
-        await register(formData.username, formData.email, formData.password);
+        await register({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password
+        });
         setRegistered(true);
       } catch (error) {
         setErrorMessage(
@@ -128,7 +132,7 @@ const Register = () => {
             </div>
           </div>
           <h1 className="register-title">Hesap Oluştur</h1>
-          <p className="register-subtitle">Görev yönetimi sistemine kaydolun</p>
+          <p className="register-subtitle">PlanistFlow sistemine kaydolun</p>
         </div>
         
         {errorMessage && (
