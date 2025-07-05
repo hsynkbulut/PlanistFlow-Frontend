@@ -1,6 +1,14 @@
 # PlanistFlow
 
-PlanistFlow is a modern, user-friendly task and productivity management web application built with React and Vite.
+PlanistFlow is a modern, full-featured task and productivity management web application designed to help you organize, track, and complete your daily work with ease. Built with the latest technologies, PlanistFlow offers an intuitive and visually appealing user interface, real-time task tracking, detailed productivity statistics, and comprehensive user management features. Whether you're managing personal to-dos or collaborating with a team, PlanistFlow provides all the tools you need to stay productive and organized.
+
+Key features include:
+- Fast and responsive UI for seamless user experience
+- Real-time task creation, editing, completion, and filtering
+- Visual statistics to monitor your productivity and completed tasks
+- Secure authentication and user profile management
+- Modern, mobile-friendly design for use on any device
+- Suitable for both individual users and teams
 
 ## Technologies Used
 
@@ -39,12 +47,15 @@ PlanistFlow is a modern, user-friendly task and productivity management web appl
 
 ## Features
 
-- 📝 **Task Management:** Create, edit, complete, and delete tasks with ease
-- 📊 **Statistics:** Visualize your productivity and completed tasks
-- 👤 **User Profiles:** Manage your account, update your profile, and change your password
-- 🔒 **Authentication:** Secure registration and login system
-- 🌙 **Modern UI/UX:** Responsive, clean, and accessible design
-- 📨 **Support:** Contact us at [support@planistflow.com](mailto:support@planistflow.com)
+- 📝 **Real-Time Task Management:** Instantly create, edit, complete, and delete tasks with a seamless user experience.
+- 🔍 **Advanced Filtering & Sorting:** Filter tasks by status, search by text, and sort by title, description, or completion state.
+- 📊 **Productivity Statistics:** Visualize your progress and completed tasks with interactive statistics and charts.
+- 👤 **User Profile Management:** View and update your profile, change your password, and manage your account securely.
+- 🔒 **Secure Authentication:** Register and log in with robust security, including JWT-based authentication.
+- 🌐 **Responsive & Modern Design:** Enjoy a clean, mobile-friendly interface that works perfectly on all devices.
+- 👥 **Personal & Team Use:** Suitable for individual productivity or collaborative team task management.
+- ⚡ **Error Handling & Feedback:** User-friendly error messages and feedback for all actions.
+- ♿ **Accessibility:** Designed with accessibility best practices for an inclusive user experience.
 
 ## Getting Started
 
@@ -86,7 +97,8 @@ npm run build
 PlanistFlow requires the backend service to be running. See the [PlanistFlow Backend](https://github.com/hsynkbulut/PlanistFlow-Backend) repository for backend setup and instructions.
 
 ## License
-MIT
+
+This project is licensed under the BSD 3-Clause License. For details, please see the [LICENSE](LICENSE) file.
 
 ---
 
