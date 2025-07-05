@@ -13,14 +13,14 @@ PlanistFlow is a modern, user-friendly task and productivity management web appl
 
 ## Screenshots
 
-### Homepage
-![Homepage](./screenshots/homepage.png)
-
 ### Register
 ![Register](./screenshots/register.png)
 
 ### Login
 ![Login](./screenshots/login.png)
+
+### Homepage
+![Homepage](./screenshots/homepage.png)
 
 ### Add New Task
 ![Add New Task](./screenshots/add-new-task.png)
